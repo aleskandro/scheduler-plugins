@@ -18,6 +18,7 @@ package main
 
 import (
 	"os"
+	"sigs.k8s.io/scheduler-plugins/pkg/multiarchaware"
 
 	"k8s.io/component-base/cli"
 	_ "k8s.io/component-base/metrics/prometheus/clientgo" // for rest client metric registration
@@ -45,6 +46,7 @@ func main() {
 	// Later they can consist of scheduler profile(s) and hence
 	// used by various kinds of workloads.
 	command := app.NewSchedulerCommand(
+		app.WithPlugin(multiarchaware.Name, multiarchaware.New),
 		app.WithPlugin(capacityscheduling.Name, capacityscheduling.New),
 		app.WithPlugin(coscheduling.Name, coscheduling.New),
 		app.WithPlugin(loadvariationriskbalancing.Name, loadvariationriskbalancing.New),
